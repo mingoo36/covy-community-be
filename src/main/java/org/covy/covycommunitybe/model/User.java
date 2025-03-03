@@ -14,7 +14,8 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId; // JPA가 자동으로 user_id로 변환해줌
+    @Column(name="user_id", nullable = false)
+    private Integer userId; // JPA가 자동으로 user_id로 변환해줌
 
     @Column(nullable = false, unique = true)
     private String email;

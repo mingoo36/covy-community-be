@@ -46,26 +46,28 @@ public class AuthController {
     }
 
     // 로그아웃 API
-
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpSession session) {
         authService.logout(session);
         return ResponseEntity.ok(Map.of(MESSAGE, "로그아웃 성공"));
     }
 
-    // 현재 로그인된 사용자 정보 조회 API
-
-    @GetMapping("/me")
-    public ResponseEntity<?> getCurrentUser(HttpSession session) {
+    // 세션쳌
+    @GetMapping("/check-session")
+    public ResponseEntity<?> checkSession(HttpSession session) {
         User user = (User) session.getAttribute("user");
+
         if (user == null) {
-            return ResponseEntity.status(401).body(Map.of(MESSAGE, "로그인이 필요합니다."));
+            return ResponseEntity.status(401).body(Map.of(MESSAGE, "세션이 만료되었습니다."));
         }
+
         return ResponseEntity.ok(Map.of(
-                "userId", user.getUserId(),
-                "email", user.getEmail(),
-                "username", user.getUsername(),
-                "image", user.getImage()
+                "user", Map.of(
+                        "id", user.getUserId(),
+                        "email", user.getEmail(),
+                        "username", user.getUsername(),
+                        "image", user.getImage()
+                )
         ));
     }
 }

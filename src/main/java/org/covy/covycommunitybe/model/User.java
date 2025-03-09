@@ -27,4 +27,7 @@ public class User {
     private String username;
 
     private String image; // 프로필 이미지 (옵션)
+
+    @Column(unique = true)
+    private Long kakaoId;
 }
